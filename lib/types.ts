@@ -7,6 +7,10 @@ export interface Program {
   department: string
   semester: number
   credits: number
+  // Extended fields for generation constraints
+  expected_enrollment?: number
+  needs_lab?: boolean
+  course_type?: "Major" | "Minor" | "Skill-Based"
   created_at?: string
 }
 
@@ -18,6 +22,10 @@ export interface Faculty {
   specialization?: string
   max_hours_per_week: number
   preferred_time_slots?: string[]
+  // New optional metadata
+  expertise_tags?: string[]
+  // Availability per day: { Monday: [1,2,5], ... } where numbers refer to slot indices for that day
+  availability_mask?: Record<string, number[]>
   created_at?: string
 }
 
@@ -28,6 +36,8 @@ export interface Student {
   student_id: string
   program_id: number
   semester: number
+  // Courses this student is enrolled in (by Program/Course id)
+  enrolled_courses?: number[]
   created_at?: string
 }
 
@@ -39,6 +49,8 @@ export interface Classroom {
   equipment?: string[]
   building?: string
   floor?: number
+  // Convenience flag for lab rooms
+  is_lab?: boolean
   created_at?: string
 }
 
