@@ -52,13 +52,21 @@ export async function POST(request: NextRequest) {
 
     const engine = new HybridTimetableEngine()
 
+    const programs = body.programs || body.courses || samplePrograms
+    const faculty = body.faculty || body.teachers || sampleFaculty
+    const classrooms = body.classrooms || body.rooms || sampleClassrooms
+    const timeSlots = body.time_slots || sampleTimeSlots
+    const preferences = body.preferences || mockPreferences
+    const students = body.students || undefined
+
     const result = await engine.generateTimetable(
-      samplePrograms,
-      sampleFaculty,
-      sampleClassrooms,
-      sampleTimeSlots,
-      mockPreferences,
+      programs,
+      faculty,
+      classrooms,
+      timeSlots,
+      preferences,
       config,
+      students,
     )
 
     console.log("[v0] Timetable generation complete:", {

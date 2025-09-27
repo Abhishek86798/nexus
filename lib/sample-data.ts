@@ -9,6 +9,9 @@ export const samplePrograms: Program[] = [
     department: "Computer Science",
     semester: 1,
     credits: 4,
+    expected_enrollment: 55,
+    needs_lab: false,
+    course_type: "Major",
   },
   {
     id: 2,
@@ -25,6 +28,9 @@ export const samplePrograms: Program[] = [
     department: "Computer Science",
     semester: 5,
     credits: 3,
+    expected_enrollment: 40,
+    needs_lab: true,
+    course_type: "Major",
   },
   {
     id: 4,
@@ -33,6 +39,9 @@ export const samplePrograms: Program[] = [
     department: "Computer Science",
     semester: 7,
     credits: 4,
+    expected_enrollment: 35,
+    needs_lab: true,
+    course_type: "Minor",
   },
   {
     id: 5,
@@ -41,6 +50,9 @@ export const samplePrograms: Program[] = [
     department: "Computer Science",
     semester: 8,
     credits: 3,
+    expected_enrollment: 50,
+    needs_lab: false,
+    course_type: "Skill-Based",
   },
 ]
 
@@ -53,6 +65,8 @@ export const sampleFaculty: Faculty[] = [
     specialization: "Algorithms",
     max_hours_per_week: 18,
     preferred_time_slots: ["Morning 1", "Morning 2", "Morning 3"],
+    expertise_tags: ["Algorithms", "Discrete Math"],
+    availability_mask: { Monday: [1, 2, 3, 4], Tuesday: [1, 2, 3], Wednesday: [1, 2, 3], Thursday: [1, 2, 3], Friday: [1, 2] },
   },
   {
     id: 2,
@@ -62,6 +76,8 @@ export const sampleFaculty: Faculty[] = [
     specialization: "Database Systems",
     max_hours_per_week: 20,
     preferred_time_slots: ["Morning 2", "Morning 3", "Afternoon 1"],
+    expertise_tags: ["Databases", "SQL", "NoSQL"],
+    availability_mask: { Monday: [2, 3, 5], Tuesday: [1, 2, 5], Wednesday: [1, 2], Thursday: [3, 5], Friday: [] },
   },
   {
     id: 3,
@@ -71,6 +87,8 @@ export const sampleFaculty: Faculty[] = [
     specialization: "Machine Learning",
     max_hours_per_week: 16,
     preferred_time_slots: ["Afternoon 1", "Afternoon 2"],
+    expertise_tags: ["Machine Learning", "AI"],
+    availability_mask: { Monday: [5, 6, 7], Tuesday: [5, 6], Wednesday: [5], Thursday: [6, 7], Friday: [5, 6] },
   },
   // Add more faculty members...
 ]
@@ -84,6 +102,7 @@ export const sampleClassrooms: Classroom[] = [
     equipment: ["projector", "whiteboard", "audio_system"],
     building: "Academic Block A",
     floor: 1,
+    is_lab: false,
   },
   {
     id: 2,
@@ -93,6 +112,7 @@ export const sampleClassrooms: Classroom[] = [
     equipment: ["computers", "projector", "network"],
     building: "Academic Block B",
     floor: 2,
+    is_lab: true,
   },
   {
     id: 3,
@@ -102,6 +122,7 @@ export const sampleClassrooms: Classroom[] = [
     equipment: ["projector", "audio_system", "microphone", "stage_lights"],
     building: "Academic Block D",
     floor: 0,
+    is_lab: false,
   },
   // Add more classrooms...
 ]
