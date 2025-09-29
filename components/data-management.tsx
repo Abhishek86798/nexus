@@ -552,7 +552,7 @@ export function DataManagement({ onDataUpdate }: DataManagementProps) {
                     id="faculty-name"
                     value={newFaculty.name}
                     onChange={(e) => setNewFaculty({ ...newFaculty, name: e.target.value })}
-                    placeholder="e.g., Dr. John Smith"
+                    placeholder="e.g., Dr. Rajesh Kumar"
                   />
                 </div>
                 <div>
@@ -562,7 +562,7 @@ export function DataManagement({ onDataUpdate }: DataManagementProps) {
                     type="email"
                     value={newFaculty.email}
                     onChange={(e) => setNewFaculty({ ...newFaculty, email: e.target.value })}
-                    placeholder="john.smith@university.edu"
+                    placeholder="rajesh.kumar@university.edu"
                   />
                 </div>
               </div>

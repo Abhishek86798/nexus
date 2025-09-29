@@ -164,6 +164,7 @@ import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { getStats } from "@/data/sampleData"
 import LoadingModal from "@/components/loading-modal"
+import { ProtectedRoute } from "@/components/auth/protected-route"
 
 export default function HomePage() {
   const stats = getStats()
@@ -171,7 +172,8 @@ export default function HomePage() {
   const [isGenerating, setIsGenerating] = useState(false)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
@@ -317,6 +319,7 @@ export default function HomePage() {
           router.push('/timetable')
         }}
       />
-    </div>
+      </div>
+    </ProtectedRoute>
   )
 }

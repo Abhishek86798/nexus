@@ -10,8 +10,8 @@ import { Toaster } from "sonner"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "AI Scheduler - Timetable Generation System",
-  description: "AI-powered timetable generation system aligned with NEP 2020",
+  title: "Nexus - Timetable Management System",
+  description: "Comprehensive timetable management system for educational institutions",
   generator: "v0.app",
 }
 

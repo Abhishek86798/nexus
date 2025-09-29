@@ -62,7 +62,7 @@ export function TimetableGenerator() {
         success: false,
         assignments: [],
         conflicts: [
-          { type: "system_error", severity: "critical", description: "Generation failed", affected_entities: [] },
+          { type: "time_conflict", severity: "critical", description: "Generation failed", affected_entities: [] },
         ],
         optimization_score: 0,
         generation_time: 0,

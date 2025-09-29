@@ -27,6 +27,16 @@ export interface Faculty {
   created_at?: string
 }
 
+export interface Teacher {
+  id: number
+  name: string
+  email: string
+  department: string
+  subjects: string[]
+  maxHoursPerDay: number
+  preferredTimeSlots: string[]
+}
+
 export interface Student {
   id: number
   name: string

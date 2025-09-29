@@ -44,8 +44,8 @@ export interface Student {
 export const sampleTeachers: Teacher[] = [
   {
     id: '1',
-    name: 'Dr. Sarah Johnson',
-    email: 'sarah.johnson@university.edu',
+    name: 'Dr. Priya Sharma',
+    email: 'priya.sharma@university.edu',
     department: 'Computer Science',
     subjects: ['Data Structures', 'Algorithms', 'Software Engineering'],
     maxHoursPerDay: 6,
@@ -53,8 +53,8 @@ export const sampleTeachers: Teacher[] = [
   },
   {
     id: '2',
-    name: 'Prof. Michael Chen',
-    email: 'michael.chen@university.edu',
+    name: 'Prof. Rajesh Kumar',
+    email: 'rajesh.kumar@university.edu',
     department: 'Computer Science',
     subjects: ['Database Systems', 'Web Development', 'System Design'],
     maxHoursPerDay: 5,
@@ -62,8 +62,8 @@ export const sampleTeachers: Teacher[] = [
   },
   {
     id: '3',
-    name: 'Dr. Emily Rodriguez',
-    email: 'emily.rodriguez@university.edu',
+    name: 'Dr. Kavya Reddy',
+    email: 'kavya.reddy@university.edu',
     department: 'Mathematics',
     subjects: ['Calculus', 'Linear Algebra', 'Statistics'],
     maxHoursPerDay: 6,
@@ -71,8 +71,8 @@ export const sampleTeachers: Teacher[] = [
   },
   {
     id: '4',
-    name: 'Prof. David Kim',
-    email: 'david.kim@university.edu',
+    name: 'Prof. Vikram Gupta',
+    email: 'vikram.gupta@university.edu',
     department: 'Physics',
     subjects: ['Physics I', 'Physics II', 'Quantum Mechanics'],
     maxHoursPerDay: 5,
@@ -80,8 +80,8 @@ export const sampleTeachers: Teacher[] = [
   },
   {
     id: '5',
-    name: 'Dr. Lisa Wang',
-    email: 'lisa.wang@university.edu',
+    name: 'Dr. Ananya Singh',
+    email: 'ananya.singh@university.edu',
     department: 'Computer Science',
     subjects: ['Machine Learning', 'AI', 'Data Science'],
     maxHoursPerDay: 4,
@@ -245,8 +245,8 @@ export const sampleRooms: Room[] = [
 export const sampleStudents: Student[] = [
   {
     id: '1',
-    name: 'John Doe',
-    email: 'john.doe@student.university.edu',
+    name: 'Arjun Kumar',
+    email: 'arjun.kumar@student.university.edu',
     rollNumber: 'CS2021001',
     semester: 3,
     department: 'Computer Science',
@@ -254,8 +254,8 @@ export const sampleStudents: Student[] = [
   },
   {
     id: '2',
-    name: 'Jane Smith',
-    email: 'jane.smith@student.university.edu',
+    name: 'Priya Sharma',
+    email: 'priya.sharma@student.university.edu',
     rollNumber: 'CS2021002',
     semester: 5,
     department: 'Computer Science',
@@ -263,8 +263,8 @@ export const sampleStudents: Student[] = [
   },
   {
     id: '3',
-    name: 'Alice Johnson',
-    email: 'alice.johnson@student.university.edu',
+    name: 'Ananya Singh',
+    email: 'ananya.singh@student.university.edu',
     rollNumber: 'CS2019001',
     semester: 7,
     department: 'Computer Science',
@@ -272,8 +272,8 @@ export const sampleStudents: Student[] = [
   },
   {
     id: '4',
-    name: 'Bob Wilson',
-    email: 'bob.wilson@student.university.edu',
+    name: 'Rohit Patel',
+    email: 'rohit.patel@student.university.edu',
     rollNumber: 'MATH2022001',
     semester: 3,
     department: 'Mathematics',
@@ -281,8 +281,8 @@ export const sampleStudents: Student[] = [
   },
   {
     id: '5',
-    name: 'Emma Davis',
-    email: 'emma.davis@student.university.edu',
+    name: 'Kavya Reddy',
+    email: 'kavya.reddy@student.university.edu',
     rollNumber: 'PHY2022001',
     semester: 1,
     department: 'Physics',

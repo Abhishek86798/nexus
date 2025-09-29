@@ -39,7 +39,8 @@ const mockSuggestions: AISuggestion[] = [
     title: "Optimize CS101 Schedule",
     description: "Swap CS101 with MA204 on Monday to reduce student travel time between buildings by 40%",
     impact: "Reduces avg. walking time by 3 minutes per student",
-    confidence: 87
+    confidence: 87,
+    estimated_improvement: "40% reduction in travel time"
   },
   {
     id: 2,
@@ -47,7 +48,8 @@ const mockSuggestions: AISuggestion[] = [
     title: "Faculty Workload Balance",
     description: "Redistribute Dr. Sharma's classes to improve workload fairness across faculty",
     impact: "Improves workload distribution by 15%",
-    confidence: 78
+    confidence: 78,
+    estimated_improvement: "15% workload balance improvement"
   },
   {
     id: 3,
@@ -55,7 +57,8 @@ const mockSuggestions: AISuggestion[] = [
     title: "Morning Preference Match",
     description: "Move Database Systems to 9:00 AM slot to match Prof. Patel's preferred teaching hours",
     impact: "Increases faculty satisfaction by 12%",
-    confidence: 92
+    confidence: 92,
+    estimated_improvement: "12% faculty satisfaction increase"
   },
   {
     id: 4,
@@ -63,7 +66,8 @@ const mockSuggestions: AISuggestion[] = [
     title: "Lab Utilization",
     description: "Consolidate lab sessions to Lab B201 for better equipment utilization",
     impact: "Improves lab utilization by 25%",
-    confidence: 85
+    confidence: 85,
+    estimated_improvement: "25% lab utilization improvement"
   }
 ]
 

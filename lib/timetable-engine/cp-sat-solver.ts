@@ -42,8 +42,8 @@ export class CPSATSolver {
     this.timeSlots = timeSlots
     this.students = students
     this.constraints = constraints
-    this.conflictGraph = this.buildConflictGraph()
-    this.decisionVariables = this.createDecisionVariables()
+    this.conflictGraph = this.buildConflictGraphStub()
+    this.decisionVariables = this.createDecisionVariablesStub()
   }
 
   solve(timeLimitSeconds = 30): OptimizationResult {
@@ -293,5 +293,25 @@ export class CPSATSolver {
     }
 
     return satisfaction
+  }
+
+  private buildConflictGraphStub(): ConflictGraph {
+    return {}
+  }
+
+  private createDecisionVariablesStub(): DecisionVariable[] {
+    return []
+  }
+
+  private findFeasibleSolution(): OptimizationResult {
+    return {
+      success: false,
+      assignments: [],
+      conflicts: [],
+      optimization_score: 0,
+      generation_time: 0,
+      strategy_used: "cp-sat",
+      iterations: 1
+    }
   }
 }

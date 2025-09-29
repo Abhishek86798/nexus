@@ -62,9 +62,9 @@ export default function MarkAbsentModal({
         id: 'sub-1',
         type: 'substitute',
         title: 'Assign Substitute Teacher',
-        description: `Dr. Michael Chen (available) can cover ${entry.courseName}`,
+        description: `Prof. Rajesh Kumar (available) can cover ${entry.courseName}`,
         impact: 'low',
-        newTeacher: 'Dr. Michael Chen',
+        newTeacher: 'Prof. Rajesh Kumar',
         affectedStudents: entry.enrolledCount
       },
       {

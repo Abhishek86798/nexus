@@ -97,7 +97,7 @@ export default function StudentsPage() {
   const downloadTemplate = () => {
     const csvContent = `name,email,rollNumber,semester,department,enrolledCourses
 John Doe,john.doe@student.edu,CS2021001,3,Computer Science,"1,3"
-Jane Smith,jane.smith@student.edu,CS2021002,5,Computer Science,"2,6"`;
+Priya Sharma,priya.sharma@student.edu,CS2021002,5,Computer Science,"2,6"`;
     
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);

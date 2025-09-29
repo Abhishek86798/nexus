@@ -13,6 +13,9 @@ import { cn } from "@/lib/utils"
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: Home },
   { name: "Timetables", href: "/admin/timetables", icon: Calendar },
+  { name: "Teachers", href: "/admin/teachers", icon: Users },
+  { name: "Courses", href: "/admin/courses", icon: BookOpen },
+  { name: "Rooms", href: "/admin/rooms", icon: Building },
   { name: "Programs", href: "/admin/programs", icon: BookOpen },
   { name: "Faculty", href: "/admin/faculty", icon: Users },
   { name: "Students", href: "/admin/students", icon: Users },
@@ -63,7 +66,7 @@ function SidebarContent({ pathname }: { pathname: string }) {
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 shadow-lg">
       <div className="flex h-16 shrink-0 items-center">
-        <h1 className="text-xl font-bold text-blue-600">AI Scheduler</h1>
+        <h1 className="text-xl font-bold text-blue-600">Nexus</h1>
       </div>
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">

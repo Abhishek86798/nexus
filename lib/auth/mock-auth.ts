@@ -7,7 +7,7 @@ import type { User, LoginCredentials, SignupData } from "./types"
 const MOCK_USERS: User[] = [
   {
     id: "admin_1",
-    email: "admin@university.edu",
+    email: "admin123@gmail.com",
     name: "System Administrator",
     role: "admin",
     created_at: "2024-01-01T00:00:00Z",
@@ -36,7 +36,7 @@ const MOCK_USERS: User[] = [
   {
     id: "student_1",
     email: "student1@university.edu",
-    name: "Student One",
+    name: "Arjun Kumar",
     role: "student",
     department: "Computer Science",
     student_id: "STU0001",
@@ -60,19 +60,31 @@ export class MockAuthService {
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    // Find user by email
+    // Hardcoded admin validation as requested
+    if (credentials.email === "admin123@gmail.com" && credentials.password === "admin123") {
+      const adminUser = MOCK_USERS.find((u) => u.email === "admin123@gmail.com")
+      if (adminUser) {
+        adminUser.last_login = new Date().toISOString()
+        this.currentUser = adminUser
+        return adminUser
+      }
+    }
+
+    // For other demo users, find by email
     const user = MOCK_USERS.find((u) => u.email === credentials.email)
 
     if (!user) {
-      throw new Error("User not found")
+      throw new Error("Invalid credentials")
     }
 
     if (!user.is_active) {
       throw new Error("Account is deactivated")
     }
 
-    // In production, verify password hash
-    // For demo, accept any password for existing users
+    // For demo users (non-admin), accept demo123 password
+    if (credentials.password !== "demo123") {
+      throw new Error("Invalid credentials")
+    }
 
     // Update last login
     user.last_login = new Date().toISOString()

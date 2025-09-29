@@ -435,8 +435,8 @@ export default function TimetablePage() {
                   <h4 className="font-medium text-gray-700 mb-2">Sample Enrolled Students:</h4>
                   <div className="space-y-1 text-sm text-gray-600">
                     <div>• John Doe (CS2021001)</div>
-                    <div>• Jane Smith (CS2021002)</div>
-                    <div>• Alice Johnson (CS2019001)</div>
+                    <div>• Priya Sharma (CS2021002)</div>
+                    <div>• Ananya Singh (CS2019001)</div>
                     <div>• ... and {selectedEntry.enrolledCount - 3} more</div>
                   </div>
                 </div>

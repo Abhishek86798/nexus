@@ -1,5 +1,5 @@
 // Sample data for demonstration and testing
-import type { Program, Faculty, Classroom, TimeSlot, Student } from "./types"
+import type { Program, Faculty, Classroom, TimeSlot, Student, Teacher } from "./types"
 
 export const samplePrograms: Program[] = [
   {
@@ -136,8 +136,8 @@ export const sampleFaculty: Faculty[] = [
   },
   {
     id: 4,
-    name: "Dr. Sarah Johnson",
-    email: "sarah.johnson@university.edu",
+    name: "Dr. Meera Iyer",
+    email: "meera.iyer@university.edu",
     department: "Computer Science",
     specialization: "Software Engineering",
     expertise_tags: ["Software Engineering", "Project Management", "Agile", "Testing"],
@@ -155,8 +155,8 @@ export const sampleFaculty: Faculty[] = [
   },
   {
     id: 5,
-    name: "Prof. Michael Chen",
-    email: "michael.chen@university.edu",
+    name: "Prof. Arun Joshi",
+    email: "arun.joshi@university.edu",
     department: "Mathematics",
     specialization: "Discrete Mathematics",
     expertise_tags: ["Mathematics", "Discrete Mathematics", "Logic", "Statistics"],
@@ -240,8 +240,8 @@ export const sampleClassrooms: Classroom[] = [
 export const sampleStudents: Student[] = [
   {
     id: 1,
-    name: "John Doe",
-    email: "john.doe@student.university.edu",
+    name: "Arjun Kumar",
+    email: "arjun.kumar@student.university.edu",
     student_id: "CS2021001",
     program_id: 1,
     semester: 1,
@@ -249,8 +249,8 @@ export const sampleStudents: Student[] = [
   },
   {
     id: 2,
-    name: "Jane Smith",
-    email: "jane.smith@student.university.edu",
+    name: "Priya Sharma",
+    email: "priya.sharma@student.university.edu",
     student_id: "CS2021002",
     program_id: 1,
     semester: 3,
@@ -258,8 +258,8 @@ export const sampleStudents: Student[] = [
   },
   {
     id: 3,
-    name: "Alice Johnson",
-    email: "alice.johnson@student.university.edu",
+    name: "Ananya Singh",
+    email: "ananya.singh@student.university.edu",
     student_id: "CS2019001",
     program_id: 1,
     semester: 5,
@@ -267,17 +267,17 @@ export const sampleStudents: Student[] = [
   },
   {
     id: 4,
-    name: "Bob Wilson",
-    email: "bob.wilson@student.university.edu",
+    name: "Rohit Patel",
+    email: "rohit.patel@student.university.edu",
     student_id: "CS2019002",
     program_id: 1,
     semester: 5,
-    enrolled_courses: [3, 4], // CS301, CS401 (conflict with Alice)
+    enrolled_courses: [3, 4], // CS301, CS401 (conflict with Ananya)
   },
   {
     id: 5,
-    name: "Carol Brown",
-    email: "carol.brown@student.university.edu",
+    name: "Kavya Reddy",
+    email: "kavya.reddy@student.university.edu",
     student_id: "CS2018001",
     program_id: 1,
     semester: 8,
@@ -285,17 +285,17 @@ export const sampleStudents: Student[] = [
   },
   {
     id: 6,
-    name: "David Davis",
-    email: "david.davis@student.university.edu",
+    name: "Vikram Gupta",
+    email: "vikram.gupta@student.university.edu",
     student_id: "CS2021003",
     program_id: 1,
     semester: 1,
-    enrolled_courses: [1, 6], // CS101, MA101 (conflict with John)
+    enrolled_courses: [1, 6], // CS101, MA101 (conflict with Arjun)
   },
   {
     id: 7,
-    name: "Eva Martinez",
-    email: "eva.martinez@student.university.edu",
+    name: "Aditya Joshi",
+    email: "aditya.joshi@student.university.edu",
     student_id: "CS2020001",
     program_id: 1,
     semester: 3,
@@ -303,8 +303,8 @@ export const sampleStudents: Student[] = [
   },
   {
     id: 8,
-    name: "Frank Taylor",
-    email: "frank.taylor@student.university.edu",
+    name: "Shreya Agarwal",
+    email: "shreya.agarwal@student.university.edu",
     student_id: "CS2019003",
     program_id: 1,
     semester: 7,
@@ -345,3 +345,51 @@ export const getClassroomTypeIcon = (type: Classroom["type"]): string => {
       return "📍"
   }
 }
+
+export const sampleTeachers: Teacher[] = [
+  {
+    id: 1,
+    name: "Dr. Rajesh Kumar",
+    email: "rajesh.kumar@university.edu",
+    department: "Computer Science",
+    subjects: ["Data Structures", "Algorithms", "Programming"],
+    maxHoursPerDay: 6,
+    preferredTimeSlots: ["09:00-10:00", "10:00-11:00", "11:00-12:00"]
+  },
+  {
+    id: 2,
+    name: "Prof. Priya Sharma",
+    email: "priya.sharma@university.edu",
+    department: "Mathematics",
+    subjects: ["Calculus", "Linear Algebra", "Statistics"],
+    maxHoursPerDay: 5,
+    preferredTimeSlots: ["08:00-09:00", "09:00-10:00", "14:00-15:00"]
+  },
+  {
+    id: 3,
+    name: "Dr. Ananya Singh",
+    email: "ananya.singh@university.edu",
+    department: "Computer Science",
+    subjects: ["Machine Learning", "AI", "Data Science"],
+    maxHoursPerDay: 4,
+    preferredTimeSlots: ["13:00-14:00", "14:00-15:00", "15:00-16:00"]
+  },
+  {
+    id: 4,
+    name: "Prof. Vikram Gupta",
+    email: "vikram.gupta@university.edu",
+    department: "Physics",
+    subjects: ["Quantum Physics", "Thermodynamics", "Mechanics"],
+    maxHoursPerDay: 6,
+    preferredTimeSlots: ["08:00-09:00", "10:00-11:00", "15:00-16:00"]
+  },
+  {
+    id: 5,
+    name: "Dr. Kavya Reddy",
+    email: "kavya.reddy@university.edu",
+    department: "Chemistry",
+    subjects: ["Organic Chemistry", "Inorganic Chemistry", "Physical Chemistry"],
+    maxHoursPerDay: 5,
+    preferredTimeSlots: ["09:00-10:00", "11:00-12:00", "14:00-15:00"]
+  }
+]

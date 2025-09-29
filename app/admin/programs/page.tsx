@@ -21,13 +21,21 @@ import { Plus, Edit, Trash2, Search } from "lucide-react"
 import { samplePrograms } from "@/lib/sample-data"
 import type { Program } from "@/lib/types"
 
+interface ProgramFormData {
+  name: string
+  code: string
+  department: string
+  semester: string
+  credits: string
+}
+
 export default function ProgramsPage() {
   const [programs, setPrograms] = useState<Program[]>(samplePrograms)
   const [searchTerm, setSearchTerm] = useState("")
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [editingProgram, setEditingProgram] = useState<Program | null>(null)
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProgramFormData>({
     name: "",
     code: "",
     department: "",
@@ -49,6 +57,10 @@ export default function ProgramsPage() {
       ...formData,
       semester: Number.parseInt(formData.semester),
       credits: Number.parseInt(formData.credits),
+      needs_lab: false,
+      course_type: "Major" as const,
+      max_students: 50,
+      required_expertise_tags: []
     }
 
     if (editingProgram) {
@@ -232,7 +244,7 @@ function ProgramForm({
         <Input
           id="name"
           value={formData.name}
-          onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+          onChange={(e) => setFormData((prev: ProgramFormData) => ({ ...prev, name: e.target.value }))}
           placeholder="e.g., Computer Science Fundamentals"
           required
         />
@@ -242,7 +254,7 @@ function ProgramForm({
         <Input
           id="code"
           value={formData.code}
-          onChange={(e) => setFormData((prev) => ({ ...prev, code: e.target.value }))}
+          onChange={(e) => setFormData((prev: ProgramFormData) => ({ ...prev, code: e.target.value }))}
           placeholder="e.g., CS101"
           required
         />
@@ -252,7 +264,7 @@ function ProgramForm({
         <Input
           id="department"
           value={formData.department}
-          onChange={(e) => setFormData((prev) => ({ ...prev, department: e.target.value }))}
+          onChange={(e) => setFormData((prev: ProgramFormData) => ({ ...prev, department: e.target.value }))}
           placeholder="e.g., Computer Science"
           required
         />
@@ -264,7 +276,7 @@ function ProgramForm({
             id="semester"
             type="number"
             value={formData.semester}
-            onChange={(e) => setFormData((prev) => ({ ...prev, semester: e.target.value }))}
+            onChange={(e) => setFormData((prev: ProgramFormData) => ({ ...prev, semester: e.target.value }))}
             placeholder="1-8"
             min="1"
             max="8"
@@ -277,7 +289,7 @@ function ProgramForm({
             id="credits"
             type="number"
             value={formData.credits}
-            onChange={(e) => setFormData((prev) => ({ ...prev, credits: e.target.value }))}
+            onChange={(e) => setFormData((prev: ProgramFormData) => ({ ...prev, credits: e.target.value }))}
             placeholder="1-6"
             min="1"
             max="6"
