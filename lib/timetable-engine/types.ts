@@ -23,7 +23,7 @@ export interface TimeSlotAssignment {
 export interface GenerationConfig {
   academic_year: string
   week_number: number
-  optimization_strategy: "greedy" | "cp_sat" | "ml_guided" | "hybrid"
+  optimization_strategy: "greedy" | "cp_sat" | "ml_guided" | "hybrid" | "or_tools"
   max_iterations: number
   time_limit_seconds: number
   allow_conflicts: boolean

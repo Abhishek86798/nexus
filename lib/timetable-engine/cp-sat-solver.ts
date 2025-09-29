@@ -1,50 +1,85 @@
-// Constraint Programming SAT solver (simplified implementation)
-// In production, this would use OR-Tools or similar
+// Enhanced Constraint Programming SAT solver following workflow specifications
+// Implements hard constraints as specified in the prototype design workflow
 
 import type { TimeSlotAssignment, Constraint, OptimizationResult } from "./types"
-import type { Program, Faculty, Classroom, TimeSlot } from "../types"
+import type { Program, Faculty, Classroom, TimeSlot, Student } from "../types"
+
+interface DecisionVariable {
+  program_id: number
+  faculty_id: number
+  classroom_id: number
+  time_slot_id: number
+  day_of_week: number
+  is_assigned: boolean
+  variable_id: string
+}
+
+interface ConflictGraph {
+  [program_id: number]: Set<number> // Programs that share students
+}
 
 export class CPSATSolver {
   private programs: Program[]
   private faculty: Faculty[]
   private classrooms: Classroom[]
   private timeSlots: TimeSlot[]
+  private students: Student[]
   private constraints: Constraint[]
+  private conflictGraph: ConflictGraph
+  private decisionVariables: DecisionVariable[]
 
   constructor(
     programs: Program[],
     faculty: Faculty[],
     classrooms: Classroom[],
     timeSlots: TimeSlot[],
+    students: Student[] = [],
     constraints: Constraint[] = [],
   ) {
     this.programs = programs
     this.faculty = faculty
     this.classrooms = classrooms
     this.timeSlots = timeSlots
+    this.students = students
     this.constraints = constraints
+    this.conflictGraph = this.buildConflictGraph()
+    this.decisionVariables = this.createDecisionVariables()
   }
 
   solve(timeLimitSeconds = 30): OptimizationResult {
     const startTime = Date.now()
 
-    // This is a simplified CP-SAT implementation
-    // In production, you would use OR-Tools CP-SAT solver
+    console.log(`[CP-SAT] Starting solver with ${this.programs.length} programs, ${this.faculty.length} faculty, ${this.classrooms.length} classrooms`)
 
-    const assignments = this.solveWithConstraints()
-    const conflicts = this.validateAssignments(assignments)
+    // Step 1: Apply hard constraints to find feasible solution
+    const feasibleSolution = this.findFeasibleSolution()
 
-    const generationTime = Date.now() - startTime
-    const optimizationScore = this.calculateOptimizationScore(assignments, conflicts)
+    if (!feasibleSolution.success) {
+      return {
+        success: false,
+        assignments: [],
+        conflicts: feasibleSolution.conflicts,
+        optimization_score: 0,
+        generation_time: Date.now() - startTime,
+        strategy_used: "cp_sat",
+        iterations: feasibleSolution.iterations,
+      }
+    }
+
+    // Step 2: Validate the solution
+    const conflicts = this.validateAssignments(feasibleSolution.assignments)
+    const optimizationScore = this.calculateOptimizationScore(feasibleSolution.assignments, conflicts)
+
+    console.log(`[CP-SAT] Solution found with ${feasibleSolution.assignments.length} assignments, ${conflicts.length} conflicts`)
 
     return {
       success: conflicts.length === 0,
-      assignments,
+      assignments: feasibleSolution.assignments,
       conflicts,
       optimization_score: optimizationScore,
-      generation_time: generationTime,
+      generation_time: Date.now() - startTime,
       strategy_used: "cp_sat",
-      iterations: 1,
+      iterations: feasibleSolution.iterations,
     }
   }
 

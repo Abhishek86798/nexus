@@ -2,9 +2,10 @@
 
 import { GreedySolver } from "./greedy-solver"
 import { CPSATSolver } from "./cp-sat-solver"
+import { EnhancedCPSATSolver } from "./enhanced-cp-sat-solver"
 import { ConstraintParser } from "./constraint-parser"
 import type { GenerationConfig, OptimizationResult, Constraint } from "./types"
-import type { Program, Faculty, Classroom, TimeSlot, Preference } from "../types"
+import type { Program, Faculty, Classroom, TimeSlot, Preference, Student } from "../types"
 
 export class HybridTimetableEngine {
   private constraintParser: ConstraintParser
@@ -20,6 +21,7 @@ export class HybridTimetableEngine {
     timeSlots: TimeSlot[],
     preferences: Preference[],
     config: GenerationConfig,
+    students: Student[] = [],
   ): Promise<OptimizationResult> {
     // Parse natural language preferences into constraints
     const constraints = this.parsePreferences(preferences)
@@ -32,16 +34,16 @@ export class HybridTimetableEngine {
         break
 
       case "cp_sat":
-        result = await this.runCPSATOptimization(programs, faculty, classrooms, timeSlots, constraints, config)
+        result = await this.runCPSATOptimization(programs, faculty, classrooms, timeSlots, constraints, config, students)
         break
 
       case "ml_guided":
-        result = await this.runMLGuidedOptimization(programs, faculty, classrooms, timeSlots, constraints, config)
+        result = await this.runMLGuidedOptimization(programs, faculty, classrooms, timeSlots, constraints, config, students)
         break
 
       case "hybrid":
       default:
-        result = await this.runHybridOptimization(programs, faculty, classrooms, timeSlots, constraints, config)
+        result = await this.runHybridOptimization(programs, faculty, classrooms, timeSlots, constraints, config, students)
         break
     }
 
@@ -88,8 +90,10 @@ export class HybridTimetableEngine {
     timeSlots: TimeSlot[],
     constraints: Constraint[],
     config: GenerationConfig,
+    students: Student[] = [],
   ): Promise<OptimizationResult> {
-    const solver = new CPSATSolver(programs, faculty, classrooms, timeSlots, constraints)
+    // Use the enhanced CP-SAT solver for better constraint handling
+    const solver = new EnhancedCPSATSolver(programs, faculty, classrooms, timeSlots, students, constraints)
     return solver.solve(config.time_limit_seconds)
   }
 
@@ -100,13 +104,14 @@ export class HybridTimetableEngine {
     timeSlots: TimeSlot[],
     constraints: Constraint[],
     config: GenerationConfig,
+    students: Student[] = [],
   ): Promise<OptimizationResult> {
     // Placeholder for ML-guided optimization
     // In production, this would use machine learning models
     // to predict optimal assignments based on historical data
 
     console.log("[v0] ML-guided optimization not yet implemented, falling back to CP-SAT")
-    return this.runCPSATOptimization(programs, faculty, classrooms, timeSlots, constraints, config)
+    return this.runCPSATOptimization(programs, faculty, classrooms, timeSlots, constraints, config, students)
   }
 
   private async runHybridOptimization(
@@ -116,6 +121,7 @@ export class HybridTimetableEngine {
     timeSlots: TimeSlot[],
     constraints: Constraint[],
     config: GenerationConfig,
+    students: Student[] = [],
   ): Promise<OptimizationResult> {
     console.log("[v0] Starting hybrid optimization with greedy initialization")
 
@@ -128,7 +134,7 @@ export class HybridTimetableEngine {
     if (greedyResult.conflicts.length > 0 || greedyResult.optimization_score < 70) {
       console.log("[v0] Greedy solution suboptimal, running CP-SAT refinement")
 
-      const cpsatResult = await this.runCPSATOptimization(programs, faculty, classrooms, timeSlots, constraints, config)
+      const cpsatResult = await this.runCPSATOptimization(programs, faculty, classrooms, timeSlots, constraints, config, students)
 
       // Return better result
       if (cpsatResult.optimization_score > greedyResult.optimization_score) {

@@ -7,6 +7,10 @@ export interface Program {
   department: string
   semester: number
   credits: number
+  needs_lab: boolean
+  course_type: 'Major' | 'Minor' | 'Skill-Based' | 'Elective'
+  max_students: number
+  required_expertise_tags: string[] // Tags that teaching faculty must have
   created_at?: string
 }
 
@@ -16,8 +20,10 @@ export interface Faculty {
   email: string
   department: string
   specialization?: string
+  expertise_tags: string[] // e.g., ['Physics', 'Quantum', 'Advanced Mathematics']
   max_hours_per_week: number
   preferred_time_slots?: string[]
+  availability_mask: { [key: string]: number[] } // e.g., {"Monday": [1, 2, 5], "Tuesday": []} representing available slots
   created_at?: string
 }
 
@@ -28,6 +34,7 @@ export interface Student {
   student_id: string
   program_id: number
   semester: number
+  enrolled_courses: number[] // Array of course/program IDs the student is enrolled in
   created_at?: string
 }
 
@@ -36,6 +43,7 @@ export interface Classroom {
   name: string
   type: "classroom" | "lab" | "auditorium"
   capacity: number
+  is_lab: boolean // Specifically for lab requirements
   equipment?: string[]
   building?: string
   floor?: number
@@ -131,4 +139,53 @@ export interface TimetableFilters {
   classroom_id?: number
   day_of_week?: number
   academic_year?: string
+}
+
+// AI Assistant types for mockup features
+export interface AISuggestion {
+  id: number
+  type: 'swap' | 'move' | 'optimization' | 'preference'
+  title: string
+  description: string
+  impact: string
+  confidence: number // 0-100
+  estimated_improvement: string
+}
+
+export interface PerformanceMetrics {
+  student_schedule_compactness: number // 0-100
+  teacher_workload_fairness: number // 0-100
+  room_utilization: number // 0-100
+  preference_satisfaction: number // 0-100
+  conflict_resolution_score: number // 0-100
+}
+
+export interface DisruptionAlert {
+  id: number
+  class_id: number
+  type: 'teacher_absent' | 'room_unavailable' | 'equipment_failure'
+  timestamp: string
+  suggested_alternatives: AlternativeSlot[]
+  status: 'pending' | 'resolved' | 'ignored'
+}
+
+export interface AlternativeSlot {
+  time_slot_id: number
+  classroom_id: number
+  day: string
+  time: string
+  room_name: string
+  confidence: number
+  reason: string
+}
+
+// Enhanced Generation Request
+export interface GenerationRequest {
+  programs: Program[]
+  faculty: Faculty[]
+  students: Student[]
+  classrooms: Classroom[]
+  time_slots: TimeSlot[]
+  preferences?: Preference[]
+  constraints?: TimetableConstraint[]
 }

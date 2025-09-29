@@ -1,0 +1,52 @@
+# Docker Compose for AI Timetable Generation System
+version: '3.8'
+
+services:
+  # Frontend Next.js Application
+  timetable-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production  
+      - NEXT_TELEMETRY_DISABLED=1
+      - DATABASE_URL=postgresql://timetable_admin:postgres@timetable-db:5432/timetable_db
+    restart: unless-stopped
+    depends_on:
+      - timetable-db
+    networks:
+      - timetable-network
+
+  # PostgreSQL Database (for production data)
+  timetable-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: timetable_db
+      POSTGRES_USER: timetable_admin
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - timetable-network
+
+  # Redis for caching and session management
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - timetable-network
+
+volumes:
+  postgres_data:
+
+networks:
+  timetable-network:
+    driver: bridge

@@ -1,148 +1,322 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'use client';
+
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Calendar, Users, BookOpen, BarChart3, Settings, Zap } from "lucide-react"
+import { Users, BookOpen, Building, FileSpreadsheet, Zap } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
+import { getStats } from "@/data/sampleData"
+import LoadingModal from "@/components/loading-modal"
 
 export default function HomePage() {
+  const stats = getStats()
+  const router = useRouter()
+  const [isGenerating, setIsGenerating] = useState(false)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">AI Timetable Generation System</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Timetable Management System</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Intelligent scheduling solution aligned with NEP 2020 guidelines. Automate timetable generation with
-            AI-powered optimization and real-time rescheduling.
+            Comprehensive timetable management with course scheduling, faculty allocation, and room booking.
           </p>
         </div>
 
-        {/* Feature Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {/* Stats Summary */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-blue-600" />
-                Smart Scheduling
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <BookOpen className="h-5 w-5 text-blue-600" />
+                Courses
               </CardTitle>
-              <CardDescription>AI-powered timetable generation with constraint optimization</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">
-                Generate optimal timetables considering faculty preferences, room availability, and NEP 2020 guidelines.
-              </p>
+              <p className="text-3xl font-bold text-blue-600">{stats.totalCourses}</p>
+              <p className="text-sm text-gray-600">Active courses</p>
             </CardContent>
           </Card>
 
           <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="h-5 w-5 text-green-600" />
-                Real-time Rescheduling
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Users className="h-5 w-5 text-green-600" />
+                Teachers
               </CardTitle>
-              <CardDescription>Handle disruptions with instant schedule adjustments</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">
-                Automatically reschedule classes when faculty are absent or rooms become unavailable.
-              </p>
+              <p className="text-3xl font-bold text-green-600">{stats.totalTeachers}</p>
+              <p className="text-sm text-gray-600">Faculty members</p>
             </CardContent>
           </Card>
 
           <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-purple-600" />
-                Multi-role Access
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Building className="h-5 w-5 text-purple-600" />
+                Rooms
               </CardTitle>
-              <CardDescription>Separate dashboards for admins, faculty, and students</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">
-                Role-based access control with tailored interfaces for different user types.
-              </p>
+              <p className="text-3xl font-bold text-purple-600">{stats.totalRooms}</p>
+              <p className="text-sm text-gray-600">Available rooms</p>
             </CardContent>
           </Card>
 
           <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BookOpen className="h-5 w-5 text-orange-600" />
-                NEP 2020 Aligned
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <FileSpreadsheet className="h-5 w-5 text-orange-600" />
+                Students
               </CardTitle>
-              <CardDescription>Compliant with National Education Policy guidelines</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">
-                Built-in support for flexible curriculum, multidisciplinary approach, and outcome-based education.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="h-5 w-5 text-red-600" />
-                Analytics Dashboard
-              </CardTitle>
-              <CardDescription>Comprehensive insights and utilization metrics</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600">
-                Track faculty workload, classroom utilization, and schedule efficiency with detailed analytics.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5 text-gray-600" />
-                Natural Language Preferences
-              </CardTitle>
-              <CardDescription>Express constraints in plain English</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600">
-                Input preferences like "Prof. Sharma prefers mornings" and let AI handle the optimization.
-              </p>
+              <p className="text-3xl font-bold text-orange-600">{stats.totalStudents}</p>
+              <p className="text-sm text-gray-600">Enrolled students</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Quick Actions */}
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Get Started</h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" className="bg-green-600 hover:bg-green-700">
-              <Link href="/demo">🚀 Live Demo</Link>
-            </Button>
-            <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
-              <Link href="/admin">Admin Dashboard</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/faculty">Faculty Portal</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/student">Student View</Link>
+        {/* Main Action */}
+        <div className="text-center mb-12">
+          <div className="bg-white p-8 rounded-xl shadow-lg max-w-md mx-auto">
+            <Zap className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Ready to Generate</h2>
+            <p className="text-gray-600 mb-6">
+              Generate optimized timetables using your current data configuration.
+            </p>
+            <Button 
+              size="lg" 
+              className="w-full bg-blue-600 hover:bg-blue-700"
+              onClick={() => setIsGenerating(true)}
+            >
+              Generate Timetable
             </Button>
           </div>
         </div>
 
-        {/* Demo Data Notice */}
-        <div className="mt-12 p-6 bg-green-50 border border-green-200 rounded-lg">
-          <h3 className="text-lg font-semibold text-green-800 mb-2">🎯 Interactive Demo Ready</h3>
-          <p className="text-green-700 mb-3">
-            Experience the complete AI Timetable Generation System with live data, interactive charts, and working
-            features. Perfect for demonstrations and testing all functionalities.
-          </p>
-          <div className="grid md:grid-cols-2 gap-2 text-sm text-green-600">
-            <div>✅ Interactive timetable grid with 12+ sample classes</div>
-            <div>✅ Real-time analytics with charts and metrics</div>
-            <div>✅ Faculty & room management interfaces</div>
-            <div>✅ Mock AI generation and rescheduling</div>
-          </div>
+        {/* Navigation Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader className="text-center">
+              <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <CardTitle>Manage Teachers</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-gray-600 mb-4">Add, edit, and manage faculty information</p>
+              <Button asChild variant="outline" className="w-full">
+                <Link href="/teachers">Manage Teachers</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader className="text-center">
+              <BookOpen className="h-8 w-8 text-green-600 mx-auto mb-2" />
+              <CardTitle>Manage Courses</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-gray-600 mb-4">Configure courses and subject details</p>
+              <Button asChild variant="outline" className="w-full">
+                <Link href="/courses">Manage Courses</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader className="text-center">
+              <Building className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <CardTitle>Manage Rooms</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-gray-600 mb-4">Set up classrooms and lab spaces</p>
+              <Button asChild variant="outline" className="w-full">
+                <Link href="/rooms">Manage Rooms</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader className="text-center">
+              <FileSpreadsheet className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+              <CardTitle>Student Data</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-gray-600 mb-4">Upload student enrollment data</p>
+              <Button asChild variant="outline" className="w-full">
+                <Link href="/students">Upload Students</Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
+
+      <LoadingModal 
+        isOpen={isGenerating}
+        onComplete={() => {
+          setIsGenerating(false)
+          router.push('/timetable')
+        }}
+      />
     </div>
   )
 }

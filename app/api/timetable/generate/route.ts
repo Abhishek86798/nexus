@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { HybridTimetableEngine } from "@/lib/timetable-engine/hybrid-engine"
-import { samplePrograms, sampleFaculty, sampleClassrooms, sampleTimeSlots } from "@/lib/sample-data"
+import { ORToolsCPSATSolver } from "@/lib/timetable-engine/ortools-cp-sat-solver"
+import { samplePrograms, sampleFaculty, sampleClassrooms, sampleTimeSlots, sampleStudents } from "@/lib/sample-data"
 import type { GenerationConfig } from "@/lib/timetable-engine/types"
 import type { Preference } from "@/lib/types"
 
@@ -50,16 +51,37 @@ export async function POST(request: NextRequest) {
 
     console.log("[v0] Starting timetable generation with config:", config)
 
-    const engine = new HybridTimetableEngine()
-
-    const result = await engine.generateTimetable(
-      samplePrograms,
-      sampleFaculty,
-      sampleClassrooms,
-      sampleTimeSlots,
-      mockPreferences,
-      config,
-    )
+    let result
+    
+    if (config.optimization_strategy === "or_tools") {
+      // Use Google OR-Tools inspired CP-SAT solver
+      console.log("[v0] Using OR-Tools CP-SAT solver")
+      const solver = new ORToolsCPSATSolver(
+        samplePrograms,
+        sampleFaculty,
+        sampleClassrooms,
+        sampleTimeSlots,
+        sampleStudents
+      )
+      
+      // Configure solver parameters
+      solver.setMaxSolveTime(config.time_limit_seconds)
+      solver.enableLogging(true)
+      
+      result = await solver.solve()
+    } else {
+      // Use existing hybrid engine
+      const engine = new HybridTimetableEngine()
+      result = await engine.generateTimetable(
+        samplePrograms,
+        sampleFaculty,
+        sampleClassrooms,
+        sampleTimeSlots,
+        mockPreferences,
+        config,
+        sampleStudents,
+      )
+    }
 
     console.log("[v0] Timetable generation complete:", {
       success: result.success,
@@ -95,6 +117,6 @@ export async function GET() {
       "POST /api/timetable/generate": "Generate new timetable",
       "GET /api/timetable/status": "Get generation status",
     },
-    strategies: ["greedy", "cp_sat", "ml_guided", "hybrid"],
+    strategies: ["greedy", "cp_sat", "ml_guided", "hybrid", "or_tools"],
   })
 }
