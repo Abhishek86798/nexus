@@ -3,28 +3,45 @@
 
 import { Pool } from 'pg'
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  // Additional configuration for production
-  max: 20, // Maximum number of connections in pool
-  idleTimeoutMillis: 30000, // Close idle connections after 30 seconds
-  connectionTimeoutMillis: 2000, // Timeout if connection takes longer than 2 seconds
-})
+let pool: Pool | null = null
 
-// Test the connection on startup
-pool.on('connect', () => {
-  console.log('Connected to PostgreSQL database')
-})
+function getPool() {
+  if (!pool && process.env.DATABASE_URL) {
+    try {
+      pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        // Additional configuration for production
+        max: 20, // Maximum number of connections in pool
+        idleTimeoutMillis: 30000, // Close idle connections after 30 seconds
+        connectionTimeoutMillis: 2000, // Timeout if connection takes longer than 2 seconds
+      })
 
-pool.on('error', (err) => {
-  console.error('PostgreSQL connection error:', err)
-})
+      // Test the connection on startup
+      pool.on('connect', () => {
+        console.log('Connected to PostgreSQL database')
+      })
 
-export default pool
+      pool.on('error', (err) => {
+        console.error('PostgreSQL connection error:', err)
+      })
+    } catch (error) {
+      console.warn('Failed to create database pool:', error)
+      pool = null
+    }
+  }
+  return pool
+}
+
+export default getPool()
 
 // Helper function to execute queries with error handling
 export async function query(text: string, params?: any[]) {
-  const client = await pool.connect()
+  const currentPool = getPool()
+  if (!currentPool) {
+    throw new Error('Database pool not available')
+  }
+  
+  const client = await currentPool.connect()
   try {
     const result = await client.query(text, params)
     return result
@@ -39,6 +56,14 @@ export async function query(text: string, params?: any[]) {
 // Helper function to get database health status
 export async function checkConnection() {
   try {
+    const currentPool = getPool()
+    if (!currentPool) {
+      return {
+        status: 'unavailable',
+        error: 'Database connection not available during build time',
+      }
+    }
+    
     const result = await query('SELECT NOW() as current_time, version() as postgresql_version')
     return {
       status: 'healthy',

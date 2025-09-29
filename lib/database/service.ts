@@ -9,14 +9,22 @@ declare global {
 }
 
 // Create PrismaClient instance with error handling
-const prisma = global.__prisma || new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  errorFormat: 'pretty',
-})
+let prisma: PrismaClient
 
-// Store instance globally in development to prevent hot reload issues
-if (process.env.NODE_ENV !== 'production') {
-  global.__prisma = prisma
+try {
+  prisma = global.__prisma || new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    errorFormat: 'pretty',
+  })
+
+  // Store instance globally in development to prevent hot reload issues
+  if (process.env.NODE_ENV !== 'production') {
+    global.__prisma = prisma
+  }
+} catch (error) {
+  console.warn('Failed to initialize Prisma client:', error)
+  // Create a mock client for build time
+  prisma = {} as PrismaClient
 }
 
 export { prisma }
@@ -200,6 +208,11 @@ export async function disconnectDatabase() {
  */
 export async function checkDatabaseHealth() {
   try {
+    // Check if Prisma client is properly initialized
+    if (!prisma || !prisma.$queryRaw) {
+      return { status: 'unavailable', message: 'Database client not initialized (build time)' }
+    }
+    
     await prisma.$queryRaw`SELECT 1`
     return { status: 'healthy', message: 'Database connection successful' }
   } catch (error) {
@@ -212,6 +225,19 @@ export async function checkDatabaseHealth() {
  */
 export async function getDatabaseStats() {
   try {
+    // Check if Prisma client is properly initialized
+    if (!prisma || !prisma.program) {
+      return {
+        programs: 0,
+        faculty: 0,
+        students: 0,
+        classrooms: 0,
+        assignments: 0,
+        lastUpdated: new Date().toISOString(),
+        note: 'Database unavailable during build time'
+      }
+    }
+    
     const [programs, faculty, students, classrooms, assignments] = await Promise.all([
       prisma.program.count(),
       prisma.faculty.count(),

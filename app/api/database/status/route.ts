@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Include database statistics if requested
-    if (includeStats && health.status === 'healthy') {
+    if (includeStats && (health.status === 'healthy' || health.status === 'unavailable')) {
       try {
         response.statistics = await getDatabaseStats()
       } catch (error) {
